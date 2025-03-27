@@ -3,12 +3,11 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main  # ou a branch que você usa
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    # Aqui é importante definir as permissões necessárias
     permissions:
       contents: read
     steps:
@@ -19,8 +18,6 @@ jobs:
         uses: actions/upload-pages-artifact@v1
         with:
           path: .
-          # Se o seu index.html está na raiz do repo,
-          # use ".". Se estiver em uma pasta "dist", use "./dist"
 
   deploy:
     needs: build
