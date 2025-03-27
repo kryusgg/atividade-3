@@ -1,0 +1,32 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # Ou a branch que você quiser usar para publicar
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      # Se você só tem um "index.html" na raiz, não precisa de build.
+      # Basta "subir" esses arquivos como artifact:
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: .
+          # Se o seu index.html estiver na raiz do repositório, deixe como ".".
+          # Caso tenha uma pasta "dist", use "./dist" ou o caminho apropriado.
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write    # Permissão para escrever no Pages
+      id-token: write # Necessário para gerar o ID token
+    steps:
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v1
