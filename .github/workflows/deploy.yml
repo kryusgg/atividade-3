@@ -3,33 +3,31 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main  # Ou a branch que você estiver usando
+      - main  # ou a branch que você usa
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    # Adicione as permissões necessárias para usar o actions/upload-pages-artifact
+    # Aqui é importante definir as permissões necessárias
     permissions:
       contents: read
-
     steps:
       - name: Check out repository
         uses: actions/checkout@v3
 
-      # Se o seu index.html estiver na raiz do repositório, use '.'
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
           path: .
+          # Se o seu index.html está na raiz do repo,
+          # use ".". Se estiver em uma pasta "dist", use "./dist"
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    # Permissões para publicar no Pages
     permissions:
       pages: write
       id-token: write
-
     steps:
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v1
